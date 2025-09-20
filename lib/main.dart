@@ -1,3 +1,5 @@
+import 'package:chatapp_project/screens/registeration_screen.dart';
+import 'package:chatapp_project/screens/signin_screen.dart';
 import 'package:chatapp_project/screens/welcome_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -17,7 +19,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const WelcomeScreen(),
+      home: const SigninScreen(),
     );
   }
 }
