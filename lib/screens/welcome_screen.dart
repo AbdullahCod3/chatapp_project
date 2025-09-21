@@ -3,6 +3,7 @@ import 'package:chatapp_project/core/utils/custom_button.dart';
 import 'package:flutter/material.dart';
 
 class WelcomeScreen extends StatefulWidget {
+  static const String screenRoute = 'welcome_screen';
   const WelcomeScreen({super.key});
 
   @override

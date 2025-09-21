@@ -1,10 +1,11 @@
 import 'package:chatapp_project/constants.dart';
 import 'package:chatapp_project/core/utils/custom_button.dart';
 import 'package:chatapp_project/core/utils/custom_textfield.dart';
-import 'package:chatapp_project/screens/registeration_screen.dart';
+import 'package:chatapp_project/screens/registration_screen.dart';
 import 'package:flutter/material.dart';
 
 class SigninScreen extends StatefulWidget {
+  static const String screenRoute = 'signin_screen';
   const SigninScreen({super.key});
 
   @override

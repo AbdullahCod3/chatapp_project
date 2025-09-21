@@ -3,14 +3,15 @@ import 'package:chatapp_project/core/utils/custom_button.dart';
 import 'package:chatapp_project/core/utils/custom_textfield.dart';
 import 'package:flutter/material.dart';
 
-class RegisterationScreen extends StatefulWidget {
-  const RegisterationScreen({super.key});
+class RegistrationScreen extends StatefulWidget {
+  static const String screenRoute = 'registrationScreen_screen';
+  const RegistrationScreen({super.key});
 
   @override
-  State<RegisterationScreen> createState() => _RegisterationScreenState();
+  State<RegistrationScreen> createState() => _RegistrationScreenState();
 }
 
-class _RegisterationScreenState extends State<RegisterationScreen> {
+class _RegistrationScreenState extends State<RegistrationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
