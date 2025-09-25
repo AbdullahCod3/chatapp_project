@@ -1,5 +1,7 @@
 import 'package:chatapp_project/constants.dart';
 import 'package:chatapp_project/core/utils/custom_button.dart';
+import 'package:chatapp_project/screens/registration_screen.dart';
+import 'package:chatapp_project/screens/signin_screen.dart';
 import 'package:flutter/material.dart';
 
 class WelcomeScreen extends StatefulWidget {
@@ -37,12 +39,16 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             CustomButton(
               title: 'Sign in',
               color: kPrimaryColor,
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamed(context, SigninScreen.screenRoute);
+              },
             ),
             CustomButton(
               title: 'Register',
               color: kPrimaryColor,
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamed(context, RegistrationScreen.screenRoute);
+              },
             ),
           ],
         ),

@@ -37,11 +37,9 @@ class _SigninScreenState extends State<SigninScreen> {
                 Text("Don't have an account?"),
                 GestureDetector(
                   onTap: () {
-                    Navigator.push(
+                    Navigator.pushNamed(
                       context,
-                      MaterialPageRoute(
-                        builder: (context) => const RegisterationScreen(),
-                      ),
+                      RegistrationScreen.screenRoute,
                     );
                   },
                   child: Text(
