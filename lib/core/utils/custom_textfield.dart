@@ -5,14 +5,17 @@ class CustomTextfield extends StatelessWidget {
     super.key,
     required this.hint,
     required this.onChanged,
+    this.obscureText = false,
   });
   final String hint;
   final void Function(String)? onChanged;
+  final bool obscureText;
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: TextField(
+        obscureText: obscureText,
         textAlign: TextAlign.center,
         onChanged: onChanged,
         decoration: InputDecoration(

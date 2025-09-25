@@ -12,6 +12,8 @@ class RegistrationScreen extends StatefulWidget {
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
+  late String email;
+  late String password;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,13 +25,27 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           children: [
             Container(height: 180, child: Image.asset('images/logo.png')),
             SizedBox(height: 50),
-            CustomTextfield(hint: 'Enter your email', onChanged: (value) {}),
-            CustomTextfield(hint: 'Enter your password', onChanged: (value) {}),
+            CustomTextfield(
+              hint: 'Enter your email',
+              onChanged: (value) {
+                email = value;
+              },
+            ),
+            CustomTextfield(
+              hint: 'Enter your password',
+              obscureText: true,
+              onChanged: (value) {
+                password = value;
+              },
+            ),
             SizedBox(height: 20),
             CustomButton(
               title: 'Register',
               color: kPrimaryColor,
-              onPressed: () {},
+              onPressed: () {
+                print(email);
+                print(password);
+              },
             ),
           ],
         ),
