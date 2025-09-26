@@ -6,16 +6,20 @@ class CustomTextfield extends StatelessWidget {
     required this.hint,
     required this.onChanged,
     this.obscureText = false,
+    this.keyboardType = TextInputType.text,
   });
   final String hint;
   final void Function(String)? onChanged;
   final bool obscureText;
+  final TextInputType keyboardType;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: TextField(
         obscureText: obscureText,
+        keyboardType: keyboardType,
         textAlign: TextAlign.center,
         onChanged: onChanged,
         decoration: InputDecoration(
