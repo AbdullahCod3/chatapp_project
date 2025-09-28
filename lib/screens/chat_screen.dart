@@ -1,4 +1,6 @@
 import 'package:chatapp_project/constants.dart';
+import 'package:chatapp_project/core/utils/custom_message_textfield.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -12,8 +14,10 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
+  final _firestore = FirebaseFirestore.instance;
   final _auth = FirebaseAuth.instance;
-  late User signedInUser;
+  late User signedInUser; // this will give us user's email
+  String? messageText; // message var
   bool showSpinner = false;
   @override
   void initState() {
@@ -31,6 +35,21 @@ class _ChatScreenState extends State<ChatScreen> {
       }
     } catch (e) {
       print(e);
+    }
+  }
+
+  // void getMessages() async {
+  //   final messages = await _firestore.collection('messages').get();
+  //   for (var message in messages.docs) {
+  //     print(message.data());
+  //   }
+  // }
+
+  void messagesStreams() async {
+    await for (var snapshot in _firestore.collection('messages').snapshots()) {
+      for (var message in snapshot.docs) {
+        print(message.data());
+      }
     }
   }
 
@@ -52,12 +71,13 @@ class _ChatScreenState extends State<ChatScreen> {
           TextButton(
             onPressed: () {
               //Add here logout function
-
-              _auth.signOut();
-              Navigator.pop(context);
+              messagesStreams();
+              // getMessages();
+              // _auth.signOut();
+              // Navigator.pop(context);
             },
             child: Text(
-              'Sign out',
+              'Load',
               style: TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
@@ -71,40 +91,26 @@ class _ChatScreenState extends State<ChatScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Container(),
-            Container(
-              decoration: BoxDecoration(
-                border: Border(top: BorderSide(color: kPrimaryColor, width: 2)),
-              ),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Expanded(
-                    child: TextField(
-                      onChanged: (value) {},
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.symmetric(
-                          vertical: 10,
-                          horizontal: 20,
-                        ),
-                        hintText: "Write your message here...",
-                        border: InputBorder.none,
-                      ),
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () {},
-                    child: Text(
-                      'Send',
-                      style: TextStyle(
-                        color: kPrimaryColor,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+            StreamBuilder<QuerySnapshot>(
+              stream: _firestore.collection('messages').snapshots(),
+              builder: (context, snapshot) {
+                List<Text> messageWidgets = [];
+
+                return Column(children: messageWidgets);
+              },
+            ),
+            CustomMessageTextfield(
+              buttonText: 'Send',
+              hintText: 'Write your message here...',
+              onChanged: (value) {
+                messageText = value;
+              },
+              onPressed: () {
+                _firestore.collection('messages').add({
+                  'text': messageText,
+                  'sender': signedInUser.email,
+                });
+              },
             ),
           ],
         ),
