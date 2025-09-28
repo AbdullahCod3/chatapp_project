@@ -95,7 +95,18 @@ class _ChatScreenState extends State<ChatScreen> {
               stream: _firestore.collection('messages').snapshots(),
               builder: (context, snapshot) {
                 List<Text> messageWidgets = [];
-
+                if (!snapshot.hasData) {
+                  CircularProgressIndicator(backgroundColor: kPrimaryColor);
+                }
+                final messages = snapshot.data!.docs;
+                for (var message in messages) {
+                  final messageText = message.get('text');
+                  final messageSender = message.get('sender');
+                  final textWidgetperMessage = Text(
+                    '$messageSender - $messageText ',
+                  );
+                  messageWidgets.add(textWidgetperMessage);
+                }
                 return Column(children: messageWidgets);
               },
             ),
