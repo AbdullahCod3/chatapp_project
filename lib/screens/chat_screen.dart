@@ -1,9 +1,13 @@
 import 'package:chatapp_project/constants.dart';
 import 'package:chatapp_project/core/utils/custom_message_textfield.dart';
+import 'package:chatapp_project/widgets/message_line.dart';
+import 'package:chatapp_project/widgets/message_stream_builder.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+
+final _firestore = FirebaseFirestore.instance;
 
 class ChatScreen extends StatefulWidget {
   static const String screenRoute = 'chat_screen';
@@ -14,7 +18,6 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
-  final _firestore = FirebaseFirestore.instance;
   final _auth = FirebaseAuth.instance;
   late User signedInUser; // this will give us user's email
   String? messageText; // message var
@@ -91,25 +94,7 @@ class _ChatScreenState extends State<ChatScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            StreamBuilder<QuerySnapshot>(
-              stream: _firestore.collection('messages').snapshots(),
-              builder: (context, snapshot) {
-                List<Text> messageWidgets = [];
-                if (!snapshot.hasData) {
-                  CircularProgressIndicator(backgroundColor: kPrimaryColor);
-                }
-                final messages = snapshot.data!.docs;
-                for (var message in messages) {
-                  final messageText = message.get('text');
-                  final messageSender = message.get('sender');
-                  final textWidgetperMessage = Text(
-                    '$messageSender - $messageText ',
-                  );
-                  messageWidgets.add(textWidgetperMessage);
-                }
-                return Column(children: messageWidgets);
-              },
-            ),
+            MessageStreamBuilder(),
             CustomMessageTextfield(
               buttonText: 'Send',
               hintText: 'Write your message here...',
