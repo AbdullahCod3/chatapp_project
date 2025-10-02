@@ -8,11 +8,14 @@ class CustomMessageTextfield extends StatelessWidget {
     required this.buttonText,
     required this.hintText,
     this.onPressed,
+    this.controller,
   });
   final void Function(String)? onChanged;
   final void Function()? onPressed;
   final String buttonText;
   final String hintText;
+  final TextEditingController? controller;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -24,6 +27,7 @@ class CustomMessageTextfield extends StatelessWidget {
         children: [
           Expanded(
             child: TextField(
+              controller: controller,
               onChanged: onChanged,
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.symmetric(

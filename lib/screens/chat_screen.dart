@@ -18,6 +18,7 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
+  final messageTextController = TextEditingController();
   final _auth = FirebaseAuth.instance;
   late User signedInUser; // this will give us user's email
   String? messageText; // message var
@@ -96,12 +97,14 @@ class _ChatScreenState extends State<ChatScreen> {
           children: [
             MessageStreamBuilder(),
             CustomMessageTextfield(
+              controller: messageTextController,
               buttonText: 'Send',
               hintText: 'Write your message here...',
               onChanged: (value) {
                 messageText = value;
               },
               onPressed: () {
+                messageTextController.clear();
                 _firestore.collection('messages').add({
                   'text': messageText,
                   'sender': signedInUser.email,
