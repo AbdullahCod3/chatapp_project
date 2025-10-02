@@ -11,7 +11,7 @@ class MessageStreamBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-      stream: _firestore.collection('messages').snapshots(),
+      stream: _firestore.collection('messages').orderBy('time').snapshots(),
       builder: (context, snapshot) {
         List<MessageLine> messageWidgets = [];
         if (!snapshot.hasData) {
@@ -19,7 +19,7 @@ class MessageStreamBuilder extends StatelessWidget {
             child: CircularProgressIndicator(backgroundColor: kPrimaryColor),
           );
         }
-        final messages = snapshot.data!.docs;
+        final messages = snapshot.data!.docs.reversed;
         for (var message in messages) {
           final messageText = message.get('text');
           final messageSender = message.get('sender');
@@ -33,6 +33,7 @@ class MessageStreamBuilder extends StatelessWidget {
         }
         return Expanded(
           child: ListView(
+            reverse: true,
             padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
             children: messageWidgets,
           ),

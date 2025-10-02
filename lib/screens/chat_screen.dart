@@ -1,5 +1,6 @@
 import 'package:chatapp_project/constants.dart';
 import 'package:chatapp_project/core/utils/custom_message_textfield.dart';
+import 'package:chatapp_project/screens/welcome_screen.dart';
 import 'package:chatapp_project/widgets/message_line.dart';
 import 'package:chatapp_project/widgets/message_stream_builder.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -42,21 +43,6 @@ class _ChatScreenState extends State<ChatScreen> {
     }
   }
 
-  // void getMessages() async {
-  //   final messages = await _firestore.collection('messages').get();
-  //   for (var message in messages.docs) {
-  //     print(message.data());
-  //   }
-  // }
-
-  void messagesStreams() async {
-    await for (var snapshot in _firestore.collection('messages').snapshots()) {
-      for (var message in snapshot.docs) {
-        print(message.data());
-      }
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,21 +58,13 @@ class _ChatScreenState extends State<ChatScreen> {
           ],
         ),
         actions: [
-          TextButton(
+          IconButton(
             onPressed: () {
               //Add here logout function
-              messagesStreams();
-              // getMessages();
-              // _auth.signOut();
-              // Navigator.pop(context);
+              _auth.signOut();
+              Navigator.pop(context);
             },
-            child: Text(
-              'Load',
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+            icon: Icon(Icons.close, size: 30),
           ),
         ],
       ),
@@ -108,6 +86,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 _firestore.collection('messages').add({
                   'text': messageText,
                   'sender': signedInUser.email,
+                  'time': FieldValue.serverTimestamp(),
                 });
               },
             ),
