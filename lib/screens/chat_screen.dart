@@ -95,7 +95,7 @@ class _ChatScreenState extends State<ChatScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            MessageStreamBuilder(),
+            MessageStreamBuilder(currentUser: signedInUser.email!),
             CustomMessageTextfield(
               controller: messageTextController,
               buttonText: 'Send',

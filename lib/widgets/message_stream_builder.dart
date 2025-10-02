@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 final _firestore = FirebaseFirestore.instance;
 
 class MessageStreamBuilder extends StatelessWidget {
-  const MessageStreamBuilder({super.key});
-
+  const MessageStreamBuilder({super.key, required this.currentUser});
+  final String currentUser;
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
@@ -23,7 +23,9 @@ class MessageStreamBuilder extends StatelessWidget {
         for (var message in messages) {
           final messageText = message.get('text');
           final messageSender = message.get('sender');
+
           final textWidgetperMessage = MessageLine(
+            isMe: currentUser == messageSender,
             sender: messageSender,
             text: messageText,
           );
